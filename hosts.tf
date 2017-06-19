@@ -10,6 +10,7 @@ resource "aws_instance" "ucp-manager" {
   ami           = "${var.aws_centos_ami}"
   instance_type = "${var.manager_instance_type}"
   key_name      = "${var.key_name}"
+  iam_instance_profile = "${aws_iam_instance_profile.dtr_instance_profile.id}"
 
   root_block_device {
     volume_type = "gp2"
@@ -38,6 +39,7 @@ resource "aws_instance" "ucp-worker" {
   ami           = "${var.aws_centos_ami}"
   instance_type = "${var.worker_instance_type}"
   key_name      = "${var.key_name}"
+  iam_instance_profile = "${aws_iam_instance_profile.dtr_instance_profile.id}"
 
   root_block_device {
     volume_type = "gp2"

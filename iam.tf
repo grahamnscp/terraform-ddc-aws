@@ -21,8 +21,8 @@ EOF
 }
 
 resource "aws_iam_instance_profile" "dtr_instance_profile" {
-    name = "${var.name_prefix}_dtr_instance_profile"
-    role = "dtr_iam_role"
+  name = "${var.name_prefix}_dtr_instance_profile"
+  role = "${aws_iam_role.dtr_iam_role.id}"
 }
 
 resource "aws_iam_role_policy" "dtr_iam_role_policy" {

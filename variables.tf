@@ -20,6 +20,14 @@ variable "aws_centos_ami" {
   default = "ami-bb373ddf" # centos 7 eu-west-2
 }
 
+variable "name_prefix" {
+  default = "my"
+}
+
+variable "domainname" {
+  default = "example.com"
+}
+
 variable "docker_volume_size" {
   description = "Size in GB for the second volume attached to the instance used for docker devmapper pool"
   default=31
@@ -50,14 +58,6 @@ variable "worker_instance_type" {
 
 variable "dtr_instance_type" {
   default = "t2.large"
-}
-
-variable "name_prefix" {
-  default = "my"
-}
-
-variable "domainname" {
-  default = "example.com"
 }
 
 variable "ucp_dns" {

@@ -34,25 +34,24 @@ resource "aws_iam_role_policy" "dtr_iam_role_policy" {
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": [ "s3:ListAllMyBuckets",
-                  "s3:GetBucketLocation" 
-      ],
+      "Action": "ec2:DescribeTags",
       "Resource": "*"
     },
     {
       "Effect": "Allow",
       "Action": [
         "s3:ListBucket",
-        "s3:ListBucketMultipartUploads",
-        "s3:GetObject"
+        "s3:GetBucketLocation",
+        "s3:ListAllMyBuckets",
+        "s3:ListBucketMultipartUploads"
        ],
       "Resource": ["arn:aws:s3:::${aws_s3_bucket.dtr-storage-bucket.id}"]
     },
     {
       "Effect": "Allow",
       "Action": [
-        "s3:PutObject",
         "s3:GetObject",
+        "s3:PutObject",
         "s3:DeleteObject",
         "s3:ListMultipartUploadParts",
         "s3:AbortMultipartUpload"

@@ -49,10 +49,10 @@ output "route53-ucp" {
   value = "${aws_route53_record.ucp.name}"
 }
 output "route53-dtr" {
-  value = "${aws_route53_record.ucp.name}"
+  value = "${aws_route53_record.dtr.name}"
 }
 output "route53-apps" {
-  value = "${aws_route53_record.ucp.name}"
+  value = "${aws_route53_record.apps.name}"
 }
 output "route53-ucp-managers" {
   value = ["${aws_route53_record.ucp-manager.*.name}"]

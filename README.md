@@ -1,4 +1,4 @@
-# Terraform to nodes on AWS for Docker EE HA deployment
+# Terraform create nodes on AWS for Docker EE HA deployment
 
 This repo contains Terraform templates to create new nodes on AWS split across availability zones ready to deploy on using Ansible (or similar automation like salt-ssh etc).
 

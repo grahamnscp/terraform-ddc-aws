@@ -8,7 +8,7 @@ An S3 bucket is created for the DTR shared storage.  The cluster instances are c
 
 ### setup.sh
 
-Parses the terraform template files using the values set in params.sh 
+Parses the terraform template files using the variables set in params.sh 
 
 
 ### deploy.sh

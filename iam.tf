@@ -1,4 +1,4 @@
-# IAM
+# IAM:
 
 # Create an IAM role for the Web Servers.
 resource "aws_iam_role" "dtr_iam_role" {

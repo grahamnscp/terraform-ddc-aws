@@ -1,33 +1,26 @@
-# Route53 DNS 
+# Route53 DNS Entries:
 
-# Note: if you already have a domain hosted on route53 and just want to add subdomain
-# records then comment out the aws_route53_zone and aws_route53_record blocks *and*
-# hard code in your top level domain's zone_id in *all* the other records.
+#resource "aws_route53_zone" "ddc" {
+#  name = "${var.domainname}"
+#  comment = "${var.name_prefix} DDC zone"
+#}
 
-## command out if using subdomain from here vvv
-resource "aws_route53_zone" "ddc" {
-  name = "${var.domainname}"
-  comment = "${var.name_prefix} DDC zone"
-}
-
-resource "aws_route53_record" "ddc-ns" {
-    zone_id = "${aws_route53_zone.ddc.zone_id}"
-    name = "${var.domainname}"
-    type = "NS"
-    ttl = "30"
-    records = [
-        "${aws_route53_zone.ddc.name_servers.0}",
-        "${aws_route53_zone.ddc.name_servers.1}",
-        "${aws_route53_zone.ddc.name_servers.2}",
-        "${aws_route53_zone.ddc.name_servers.3}"
-    ]
-}
-## command out if using subdomain to here ^^^
-
+#resource "aws_route53_record" "ddc-ns" {
+#    zone_id = "${aws_route53_zone.ddc.zone_id}"
+#    name = "${var.domainname}"
+#    type = "NS"
+#    ttl = "30"
+#    records = [
+#        "${aws_route53_zone.ddc.name_servers.0}",
+#        "${aws_route53_zone.ddc.name_servers.1}",
+#        "${aws_route53_zone.ddc.name_servers.2}",
+#        "${aws_route53_zone.ddc.name_servers.3}"
+#    ]
+#}
 
 resource "aws_route53_record" "ucp" {
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "${var.ucp_dns}.${var.domainname}."
   type = "CNAME"
   ttl = "300"
@@ -35,8 +28,8 @@ resource "aws_route53_record" "ucp" {
 }
 
 resource "aws_route53_record" "apps" {
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "*.${var.apps_dns}.${var.domainname}."
   type = "CNAME"
   ttl = "300"
@@ -44,8 +37,8 @@ resource "aws_route53_record" "apps" {
 }
 
 resource "aws_route53_record" "dtr" {
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "${var.dtr_dns}.${var.domainname}."
   type = "CNAME"
   ttl = "300"
@@ -54,8 +47,8 @@ resource "aws_route53_record" "dtr" {
 
 resource "aws_route53_record" "ucp-manager" {
   count = "${var.ucp_manager_count}"
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "ucp-manager${count.index + 1}.${var.domainname}"
   type = "A"
   ttl = "300"
@@ -64,18 +57,28 @@ resource "aws_route53_record" "ucp-manager" {
 
 resource "aws_route53_record" "ucp-worker" {
   count = "${var.ucp_worker_count}"
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "ucp-worker${count.index + 1}.${var.domainname}"
   type = "A"
   ttl = "300"
   records = ["${element(aws_instance.ucp-worker.*.public_ip, count.index)}"]
 }
 
+resource "aws_route53_record" "ucp-winwork" {
+  count = "${var.ucp_winwork_count}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
+  name = "ucp-winwork${count.index + 1}.${var.domainname}"
+  type = "A"
+  ttl = "300"
+  records = ["${element(aws_instance.ucp-winwork.*.public_ip, count.index)}"]
+}
+
 resource "aws_route53_record" "ucp-dtr" {
   count = "${var.ucp_dtr_count}"
-#  zone_id = "parent zone id value"
-  zone_id = "${aws_route53_zone.ddc.zone_id}"
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
   name = "ucp-dtr${count.index + 1}.${var.domainname}"
   type = "A"
   ttl = "300"

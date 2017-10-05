@@ -1,4 +1,4 @@
-# Security Groups
+# Security Groups:
 
 resource "aws_security_group" "ddc" {
     name = "${var.name_prefix}_ddc-default"
@@ -13,6 +13,13 @@ resource "aws_security_group" "ddc" {
     ingress {
         from_port = 443
         to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    # best to comment RDP access out after initial deployment testing!
+    ingress {
+        from_port = 3389
+        to_port = 3389
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -73,6 +80,12 @@ resource "aws_security_group" "dtr" {
     ingress {
         from_port = 443
         to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 80
+        to_port = 80
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }

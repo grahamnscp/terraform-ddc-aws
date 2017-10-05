@@ -1,4 +1,4 @@
-# Output Values
+# Output Values:
 
 output "region" {
   value = "${var.aws_region}"
@@ -26,6 +26,13 @@ output "ucp-workers-public-names" {
 }
 output "ucp-workers-public-ips" {
   value = ["${aws_instance.ucp-worker.*.public_ip}"]
+}
+
+output "ucp-winwork-public-names" {
+  value = ["${aws_instance.ucp-winwork.*.public_dns}"]
+}
+output "ucp-winwork-public-ips" {
+  value = ["${aws_instance.ucp-winwork.*.public_ip}"]
 }
 
 output "dtr-primary-public-name" {
@@ -59,6 +66,9 @@ output "route53-ucp-managers" {
 }
 output "route53-ucp-workers" {
   value = ["${aws_route53_record.ucp-worker.*.name}"]
+}
+output "route53-ucp-winworks" {
+  value = ["${aws_route53_record.ucp-winwork.*.name}"]
 }
 output "route53-ucp-dtrs" {
   value = ["${aws_route53_record.ucp-dtr.*.name}"]

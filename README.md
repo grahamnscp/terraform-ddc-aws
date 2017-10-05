@@ -15,3 +15,4 @@ Parses the terraform template files using the values set in params.sh
 
 Runs terraform apply with some parameter parsing for later config file generation
 
+

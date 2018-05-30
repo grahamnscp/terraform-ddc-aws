@@ -68,7 +68,7 @@ resource "aws_instance" "ucp-worker" {
   availability_zone = "${element(split(",", var.availability_zones), count.index) }"
 
   tags {
-    Name = "${var.name_prefix}_ucp-node${count.index + 1}"
+    Name = "${var.name_prefix}_ucp-worker${count.index + 1}"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_instance" "ucp-winwork" {
   count = "${var.ucp_winwork_count}"
 
   security_groups = [ "${aws_security_group.ddc.name}" ]
-  availability_zone = "${element(split(",", var.availability_zones), count.index) }"
+  availability_zone = "${element(split(",", var.availability_zones_win), count.index) }"
 
   tags {
     Name = "${var.name_prefix}_ucp-winwork${count.index + 1}"

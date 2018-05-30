@@ -60,7 +60,8 @@ echo "sshd - install.."  >> ~/userdata.log
 # Install OpenSSH server and configure
 #
 Write-Host "Downloading OpenSSH"
-Invoke-WebRequest "https://github.com/PowerShell/Win32-OpenSSH/releases/download/v0.0.19.0/OpenSSH-Win64.zip" -OutFile OpenSSH-Win64.zip -UseBasicParsing
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Invoke-WebRequest -Uri "https://github.com/PowerShell/Win32-OpenSSH/releases/download/0.0.24.0/OpenSSH-Win64.zip" -OutFile OpenSSH-Win64.zip -UseBasicParsing
 
 Write-Host "Expanding OpenSSH"
 Expand-Archive OpenSSH-Win64.zip C:\
@@ -177,22 +178,27 @@ dockerd --register-service
 Set-Service docker -StartupType Automatic
 
 echo "docker-ee - firewall rules.."  >> ~/userdata.log
+netsh advfirewall firewall add rule name="ssh_22_in"       dir=in action=allow  protocol=TCP localport=22    | Out-Null;
 netsh advfirewall firewall add rule name="docker_80_in"    dir=in action=allow  protocol=TCP localport=80    | Out-Null;
 netsh advfirewall firewall add rule name="docker_443_in"   dir=in action=allow  protocol=TCP localport=443   | Out-Null;
-netsh advfirewall firewall add rule name="docker_8443_in"  dir=in action=allow  protocol=TCP localport=8443  | Out-Null;
-netsh advfirewall firewall add rule name="docker_8080_in"  dir=in action=allow  protocol=TCP localport=8080  | Out-Null;
-netsh advfirewall firewall add rule name="docker_4000_in"  dir=in action=allow  protocol=TCP localport=4000  | Out-Null;
-netsh advfirewall firewall add rule name="docker_5000_in"  dir=in action=allow  protocol=TCP localport=5000  | Out-Null;
 netsh advfirewall firewall add rule name="docker_2376_in"  dir=in action=allow  protocol=TCP localport=2376  | Out-Null;
 netsh advfirewall firewall add rule name="docker_2377_in"  dir=in action=allow  protocol=TCP localport=2377  | Out-Null;
+netsh advfirewall firewall add rule name="docker_4000_in"  dir=in action=allow  protocol=TCP localport=4000  | Out-Null;
 netsh advfirewall firewall add rule name="docker_4789_in"  dir=in action=allow  protocol=UDP localport=4789  | Out-Null;
 netsh advfirewall firewall add rule name="docker_4789_in"  dir=in action=allow  protocol=TCP localport=4789  | Out-Null;
-netsh advfirewall firewall add rule name="docker_4789_out" dir=out action=allow protocol=UDP localport=4789  | Out-Null;
-netsh advfirewall firewall add rule name="docker_4789_out" dir=out action=allow protocol=TCP localport=4789  | Out-Null;
+netsh advfirewall firewall add rule name="docker_5000_in"  dir=in action=allow  protocol=TCP localport=5000  | Out-Null;
+netsh advfirewall firewall add rule name="docker_6443_in"  dir=in action=allow  protocol=TCP localport=6443  | Out-Null;
+netsh advfirewall firewall add rule name="docker_6444_in"  dir=in action=allow  protocol=TCP localport=6444  | Out-Null;
 netsh advfirewall firewall add rule name="docker_7946_in"  dir=in action=allow  protocol=UDP localport=7946  | Out-Null;
 netsh advfirewall firewall add rule name="docker_7946_in"  dir=in action=allow  protocol=TCP localport=7946  | Out-Null;
-netsh advfirewall firewall add rule name="docker_7946_out" dir=out action=allow protocol=UDP localport=7946  | Out-Null;
-netsh advfirewall firewall add rule name="docker_7946_out" dir=out action=allow protocol=TCP localport=7946  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8080_in"  dir=in action=allow  protocol=TCP localport=8080  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8081_in"  dir=in action=allow  protocol=TCP localport=8081  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8082_in"  dir=in action=allow  protocol=TCP localport=8082  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8083_in"  dir=in action=allow  protocol=TCP localport=8083  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8084_in"  dir=in action=allow  protocol=TCP localport=8084  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8085_in"  dir=in action=allow  protocol=TCP localport=8085  | Out-Null;
+netsh advfirewall firewall add rule name="docker_8443_in"  dir=in action=allow  protocol=TCP localport=8443  | Out-Null;
+netsh advfirewall firewall add rule name="docker_12376_in" dir=in action=allow  protocol=TCP localport=12376 | Out-Null;
 netsh advfirewall firewall add rule name="docker_12376_in" dir=in action=allow  protocol=TCP localport=12376 | Out-Null;
 netsh advfirewall firewall add rule name="docker_12379_in" dir=in action=allow  protocol=TCP localport=12379 | Out-Null;
 netsh advfirewall firewall add rule name="docker_12380_in" dir=in action=allow  protocol=TCP localport=12380 | Out-Null;
@@ -224,7 +230,7 @@ Restart-Service docker;
 # Setting up Docker daemon to listen on port 2376 with TLS
 if (!(Test-Path C:\ProgramData\docker\daemoncerts\key.pem)) {
     New-Item -ItemType directory -Path C:\ProgramData\docker\daemoncerts | Out-Null;
-    docker run --rm -v C:\ProgramData\docker\daemoncerts:C:\certs docker/ucp-agent-win:2.2.2 generate-certs ;
+    docker run --rm -v C:\ProgramData\docker\daemoncerts:C:\certs docker/ucp-agent-win:3.0.0 generate-certs ;
 }
 Stop-Service docker;
 dockerd --unregister-service;
@@ -232,10 +238,10 @@ dockerd -H npipe:// -H 0.0.0.0:2376 --tlsverify --tlscacert=C:\ProgramData\docke
 Start-Service docker;
 
 # daemon setup script from container..
-docker container run --rm docker/ucp-agent-win:2.2.2 windows-script | powershell -noprofile -noninteractive -command 'Invoke-Expression -Command $input'
+docker container run --rm docker/ucp-agent-win:3.0.0 windows-script | powershell -noprofile -noninteractive -command 'Invoke-Expression -Command $input'
 
 # pull other cluster and test image
-docker image pull docker/ucp-dsinfo-win:2.2.2
+docker image pull docker/ucp-dsinfo-win:3.0.0
 docker run microsoft/dotnet-samples:dotnetapp-nanoserver
 
 " | out-file ~/configure-docker.ps1

@@ -42,6 +42,10 @@ variable "availability_zones" {
   default = "##TF_AWS_AVAILABILITY_ZONES##"
 }
 
+variable "availability_zones_win" {
+  default = "##TF_AWS_AVAILABILITY_ZONES_WIN##"
+}
+
 variable "aws_centos_ami" {
   default = "##TF_AWS_CENTOS_AMI##"
 }
@@ -102,6 +106,10 @@ variable "dtr_dns" {
 
 variable "apps_dns" {
   default = "apps"
+}
+
+variable "kapps_dns" {
+  default = "kapps"
 }
 
 variable "dtr_storage_name" {

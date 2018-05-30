@@ -12,14 +12,14 @@ TF_AWS_DOMAINNAME=MY.existing.domain
 TF_AWS_ROUTE53_ZONE_ID=MY-existingroute53zoneid
 #
 TF_AWS_REGION=awsregion
-TF_AWS_AVAILABILITY_ZONES=availabilityzonea,availabilityzoneb
-TF_AWS_CENTOS_AMI=ami-bb373ddf
-#TF_AWS_WS2K16_AMI=ami-57435533
-TF_AWS_WS2K16_AMI=ami-76e4f512
+TF_AWS_AVAILABILITY_ZONES=availabilityzonea,availabilityzoneb,availabilityzonec
+TF_AWS_AVAILABILITY_ZONES_WIN=availabilityzonea,availabilityzoneb,availabilityzonec
+TF_AWS_CENTOS_AMI=ami-4f02e328
+TF_AWS_WS2K16_AMI=ami-916b8df6
 #
 TF_AWS_DOCKER_VOLUME_SIZE=31
 TF_AWS_UCP_MANAGER_COUNT=3
-TF_AWS_UCP_WORKER_COUNT=2
+TF_AWS_UCP_WORKER_COUNT=5
 TF_AWS_UCP_WINWORK_COUNT=2
 #
 TF_AWS_MANAGER_INSTANCE_TYPE=t2.large
@@ -31,7 +31,7 @@ TF_AWS_DTR_INSTANCE_TYPE=t2.large
 #
 WS2K16_ADMIN_PASSWORD="P@55W0rdH3re!"
 WS2K16_SSH_KEY_PUB="ssh-rsa MY-pubsshkeyhere MY-username@example.com"
-WS2K16_DOCKER_WIN_URL="https://download.docker.com/components/engine/windows-server/17.06/docker-17.06.1-ee-2.zip"
+WS2K16_DOCKER_WIN_URL="https://download.docker.com/components/engine/windows-server/17.06/docker-17.06.2-ee-9.zip"
 
 
 # - terraform.tfvars.template -> terraform.tfvars

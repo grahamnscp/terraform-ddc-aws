@@ -36,6 +36,15 @@ resource "aws_route53_record" "apps" {
   records = ["${aws_elb.apps.dns_name}"]
 }
 
+resource "aws_route53_record" "kapps" {
+#  zone_id = "${aws_route53_zone.ddc.zone_id}"
+  zone_id = "${var.route53_zone_id}"
+  name = "*.${var.kapps_dns}.${var.domainname}."
+  type = "CNAME"
+  ttl = "300"
+  records = ["${aws_elb.kapps.dns_name}"]
+}
+
 resource "aws_route53_record" "dtr" {
 #  zone_id = "${aws_route53_zone.ddc.zone_id}"
   zone_id = "${var.route53_zone_id}"

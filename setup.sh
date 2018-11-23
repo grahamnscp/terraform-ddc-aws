@@ -2,7 +2,7 @@
 
 source ./params.sh
 
-# sed -i has extra param in OSX
+# sed -i has extra param in OSX cf Linux
 SEDBAK=""
 
 UNAME_OUT="$(uname -s)"

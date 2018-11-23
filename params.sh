@@ -14,10 +14,12 @@ TF_AWS_ROUTE53_ZONE_ID=MY-existingroute53zoneid
 TF_AWS_REGION=awsregion
 TF_AWS_AVAILABILITY_ZONES=availabilityzonea,availabilityzoneb,availabilityzonec
 TF_AWS_AVAILABILITY_ZONES_WIN=availabilityzonea,availabilityzoneb,availabilityzonec
-TF_AWS_CENTOS_AMI=ami-4f02e328
-TF_AWS_WS2K16_AMI=ami-916b8df6
+# Centos 7: aws --region eu-west-2 ec2 describe-images --owners aws-marketplace --filters Name=product-code,Values=aw0evgkw8e5c1q413zgy5pjce --query 'Images[*].{ Name:Name, ID:ImageId }'
+TF_AWS_CENTOS_AMI=ami-00846a67
+# WS2K16:   aws --region eu-west-2 ec2 describe-images --owners amazon --filters "Name=name,Values=Windows_Server-2016-English-Core-Base-2018*" --query 'Images[*].{ Name:Name, ID:ImageId }'
+TF_AWS_WS2K16_AMI=ami-05f4918ebfd5a1635
 #
-TF_AWS_DOCKER_VOLUME_SIZE=31
+TF_AWS_DOCKER_VOLUME_SIZE=50
 TF_AWS_UCP_MANAGER_COUNT=3
 TF_AWS_UCP_WORKER_COUNT=5
 TF_AWS_UCP_WINWORK_COUNT=2
@@ -31,7 +33,7 @@ TF_AWS_DTR_INSTANCE_TYPE=t2.large
 #
 WS2K16_ADMIN_PASSWORD="P@55W0rdH3re!"
 WS2K16_SSH_KEY_PUB="ssh-rsa MY-pubsshkeyhere MY-username@example.com"
-WS2K16_DOCKER_WIN_URL="https://download.docker.com/components/engine/windows-server/17.06/docker-17.06.2-ee-9.zip"
+WS2K16_DOCKER_WIN_URL="https://download.docker.com/components/engine/windows-server/18.09/docker-18.09.0.zip"
 
 
 # - terraform.tfvars.template -> terraform.tfvars

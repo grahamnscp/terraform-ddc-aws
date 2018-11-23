@@ -23,8 +23,20 @@ resource "aws_security_group" "ddc" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
+        from_port = 8443
+        to_port = 8443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
         from_port = 6443
         to_port = 6443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 12388
+        to_port = 12388
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -138,8 +150,20 @@ resource "aws_security_group" "elb" {
         cidr_blocks = ["0.0.0.0/0"]
     }
     ingress {
+        from_port = 8443
+        to_port = 8443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
         from_port = 6443
         to_port = 6443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 12388
+        to_port = 12388
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -188,6 +212,12 @@ resource "aws_security_group" "apps" {
     ingress {
         from_port = 443
         to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 8443
+        to_port = 8443
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }
@@ -284,6 +314,12 @@ resource "aws_security_group" "kapps" {
     ingress {
         from_port = 443
         to_port = 443
+        protocol = "tcp"
+        cidr_blocks = ["0.0.0.0/0"]
+    }
+    ingress {
+        from_port = 8443
+        to_port = 8443
         protocol = "tcp"
         cidr_blocks = ["0.0.0.0/0"]
     }

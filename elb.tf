@@ -15,9 +15,23 @@ resource "aws_elb" "ucp" {
     }
 
     listener {
+        instance_port = 8443
+        instance_protocol = "tcp"
+        lb_port = 8443
+        lb_protocol = "tcp"
+    }
+
+    listener {
         instance_port = 6443
         instance_protocol = "tcp"
         lb_port = 6443
+        lb_protocol = "tcp"
+    }
+
+    listener {
+        instance_port = 12388
+        instance_protocol = "tcp"
+        lb_port = 12388
         lb_protocol = "tcp"
     }
 
@@ -86,6 +100,13 @@ resource "aws_elb" "apps" {
         instance_port = 443
         instance_protocol = "tcp"
         lb_port = 443
+        lb_protocol = "tcp"
+    }
+
+    listener {
+        instance_port = 8443
+        instance_protocol = "tcp"
+        lb_port = 8443
         lb_protocol = "tcp"
     }
 
@@ -203,6 +224,13 @@ resource "aws_elb" "kapps" {
         instance_port = 443
         instance_protocol = "tcp"
         lb_port = 443
+        lb_protocol = "tcp"
+    }
+
+    listener {
+        instance_port = 8443
+        instance_protocol = "tcp"
+        lb_port = 8443
         lb_protocol = "tcp"
     }
 
